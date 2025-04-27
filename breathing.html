@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathing Exercise - MindCare</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --white: #ffffff;
+            --border-radius: 10px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            background: #3498db;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 9999;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            text-decoration: none;
+            font-size: 1.5rem;
+            border: 2px solid white;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+            background: #2980b9;
+            color: white;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+
+        .breathing-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .breathing-circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            margin: 2rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            transition: transform 0.5s ease;
+            position: relative;
+        }
+
+        .breathing-text {
+            position: absolute;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .control-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .instructions {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .instructions ol {
+            padding-left: 1.5rem;
+        }
+
+        .instructions li {
+            margin-bottom: 1rem;
+        }
+
+        .timer {
+            font-size: 2rem;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .breathing-circle {
+                width: 250px;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="self-care.php" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.php" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <span class="logo-text">MindCare</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="breathing.html" class="active">Breathing</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="breathing-container">
+        <h1>Breathing Exercise</h1>
+        <p>Take a moment to focus on your breath and find your calm.</p>
+
+        <div class="breathing-circle">
+            <span class="breathing-text">Breathe In</span>
+        </div>
+
+        <div class="timer">00:00</div>
+
+        <div class="controls">
+            <button class="control-btn" id="startBtn">
+                <i class="fas fa-play"></i> Start
+            </button>
+            <button class="control-btn" id="pauseBtn" disabled>
+                <i class="fas fa-pause"></i> Pause
+            </button>
+            <button class="control-btn" id="resetBtn">
+                <i class="fas fa-redo"></i> Reset
+            </button>
+        </div>
+
+        <div class="instructions">
+            <h2>How to Practice Breathing Exercise</h2>
+            <ol>
+                <li>Find a comfortable position, either sitting or lying down</li>
+                <li>Close your eyes and focus on your breath</li>
+                <li>Inhale deeply through your nose for 4 seconds</li>
+                <li>Hold your breath for 4 seconds</li>
+                <li>Exhale slowly through your mouth for 6 seconds</li>
+                <li>Repeat this cycle for 5-10 minutes</li>
+            </ol>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MindCare</h3>
+                    <p>Supporting mental health and well-being for everyone.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="dashboard.php">Dashboard</a></li>
+                        <li><a href="resources.php">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: support@mindcare.com</p>
+                    <p>Phone: 9398598790</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MindCare. All rights reserved to TEAM SHOURYANGA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Breathing Exercise Logic
+        const breathingCircle = document.querySelector('.breathing-circle');
+        const breathingText = document.querySelector('.breathing-text');
+        const timerDisplay = document.querySelector('.timer');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        let timer;
+        let seconds = 0;
+        let isRunning = false;
+        let isInhaling = true;
+
+        function updateTimer() {
+            seconds++;
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function breathingAnimation() {
+            if (isInhaling) {
+                breathingCircle.style.transform = 'scale(1.2)';
+                breathingText.textContent = 'Breathe In';
+                setTimeout(() => {
+                    isInhaling = false;
+                    breathingCircle.style.transform = 'scale(1)';
+                    breathingText.textContent = 'Breathe Out';
+                }, 4000);
+            } else {
+                breathingCircle.style.transform = 'scale(0.8)';
+                breathingText.textContent = 'Breathe Out';
+                setTimeout(() => {
+                    isInhaling = true;
+                    breathingCircle.style.transform = 'scale(1)';
+                    breathingText.textContent = 'Breathe In';
+                }, 6000);
+            }
+        }
+
+        startBtn.addEventListener('click', () => {
+            if (!isRunning) {
+                isRunning = true;
+                startBtn.disabled = true;
+                pauseBtn.disabled = false;
+                timer = setInterval(updateTimer, 1000);
+                breathingAnimation();
+                setInterval(breathingAnimation, 10000);
+            }
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            if (isRunning) {
+                isRunning = false;
+                startBtn.disabled = false;
+                pauseBtn.disabled = true;
+                clearInterval(timer);
+                breathingCircle.style.transform = 'scale(1)';
+            }
+        });
+
+        resetBtn.addEventListener('click', () => {
+            isRunning = false;
+            seconds = 0;
+            timerDisplay.textContent = '00:00';
+            startBtn.disabled = false;
+            pauseBtn.disabled = true;
+            clearInterval(timer);
+            breathingCircle.style.transform = 'scale(1)';
+            breathingText.textContent = 'Breathe In';
+        });
+    </script>
+</body>
+</html> 

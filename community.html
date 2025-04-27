@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html ng-app="mindApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - MindCare</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <style>
+        /* Community Specific Styles */
+        .community-hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .community-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('../images/community-pattern.png') repeat;
+            opacity: 0.1;
+        }
+
+        .community-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .community-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .influencers-section {
+            padding: 4rem 0;
+        }
+
+        .influencers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .influencer-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .influencer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .influencer-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .influencer-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .influencer-content h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .influencer-content p {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .influencer-stats {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .community-hero h1 {
+                font-size: 2rem;
+            }
+
+            .community-hero p {
+                font-size: 1rem;
+            }
+
+            .influencers-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        .community-messages {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .message-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .message-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .anonymous-avatar {
+            width: 40px;
+            height: 40px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .anonymous-avatar i {
+            color: #666;
+        }
+
+        .message-author {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .message-time {
+            color: #666;
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+
+        .message-content {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 1rem;
+            color: #666;
+        }
+
+        .message-actions i {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .message-actions i:hover {
+            color: var(--primary-color);
+        }
+
+        .new-message-form {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .new-message-form textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .new-message-form button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .new-message-form button:hover {
+            background: var(--secondary-color);
+        }
+    </style>
+</head>
+<body ng-controller="MainController">
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.php" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <span class="logo-text">MindCare</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="resources.php">Resources</a></li>
+                    <li><a href="self-care.php">Self-Care</a></li>
+                    <li><a href="community.html" class="active">Community</a></li>
+                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="feed.php">Feed</a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="community-hero">
+            <h1>Community Support</h1>
+            <p>Share your thoughts and experiences anonymously</p>
+        </section>
+
+        <div class="community-messages">
+            <div class="new-message-form">
+                <textarea ng-model="newMessage" placeholder="Share your thoughts... (Your message will be anonymous)"></textarea>
+                <button ng-click="postMessage()">Post Message</button>
+            </div>
+
+            <div class="message-card" ng-repeat="message in messages">
+                <div class="message-header">
+                    <div class="anonymous-avatar">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <span class="message-author">Anonymous User</span>
+                    <span class="message-time">{{message.timestamp | date:'MMM d, yyyy h:mm a'}}</span>
+                </div>
+                <div class="message-content">
+                    {{message.content}}
+                </div>
+                <div class="message-actions">
+                    <i class="fas fa-heart" ng-click="likeMessage(message)"></i>
+                    <span>{{message.likes}} likes</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About MindCare</h3>
+                    <p>Your mental health companion for a better tomorrow.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="resources.php">Resources</a></li>
+                        <li><a href="self-care.php">Self-Care</a></li>
+                        <li><a href="community.html">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: support@mindcare.com</p>
+                    <p>Phone: 9398598790</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MindCare. All rights reserved to TEAM SHOURYANGA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Randomize influencer images
+        document.addEventListener('DOMContentLoaded', () => {
+            const influencerImages = document.querySelectorAll('.influencer-image');
+            const imageUrls = [
+                'images/influencers/influencer1.jpg',
+                'images/influencers/influencer2.jpg',
+                'images/influencers/influencer3.jpg',
+                'images/influencers/influencer4.jpg',
+                'images/influencers/influencer5.jpg',
+                'images/influencers/influencer6.jpg'
+            ];
+
+            influencerImages.forEach(img => {
+                const randomIndex = Math.floor(Math.random() * imageUrls.length);
+                img.src = imageUrls[randomIndex];
+            });
+        });
+
+        // Add this to your app.js file
+        app.controller('MainController', ['$scope', function($scope) {
+            $scope.messages = [
+                {
+                    content: "Today was a tough day, but I'm proud of myself for getting through it. Remember, it's okay to not be okay sometimes.",
+                    timestamp: new Date(),
+                    likes: 12
+                },
+                {
+                    content: "Just wanted to share that I started meditation yesterday. It's been helping me stay calm during stressful moments.",
+                    timestamp: new Date(Date.now() - 3600000),
+                    likes: 8
+                },
+                {
+                    content: "If anyone needs someone to talk to, I'm here to listen. We're all in this together.",
+                    timestamp: new Date(Date.now() - 7200000),
+                    likes: 15
+                }
+            ];
+
+            $scope.newMessage = '';
+
+            $scope.postMessage = function() {
+                if ($scope.newMessage.trim()) {
+                    $scope.messages.unshift({
+                        content: $scope.newMessage,
+                        timestamp: new Date(),
+                        likes: 0
+                    });
+                    $scope.newMessage = '';
+                }
+            };
+
+            $scope.likeMessage = function(message) {
+                message.likes++;
+            };
+        }]);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle Game - MindCare</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --white: #ffffff;
+            --border-radius: 10px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --text-color: #333333;
+            --text-light: #666666;
+            --success-color: #2ecc71;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .game-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .game-header {
+            margin-bottom: 2rem;
+        }
+
+        .game-header h1 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .game-header p {
+            color: var(--text-light);
+        }
+
+        .puzzle-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            max-width: 450px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .puzzle-piece {
+            aspect-ratio: 1;
+            background: var(--primary-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .puzzle-piece:hover {
+            transform: scale(1.05);
+        }
+
+        .puzzle-piece.empty {
+            background: transparent;
+            cursor: default;
+            box-shadow: none;
+        }
+
+        .puzzle-piece.correct {
+            background: var(--success-color);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .control-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .control-btn i {
+            font-size: 1.2rem;
+        }
+
+        .timer, .moves {
+            background: var(--white);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 1rem auto;
+            max-width: 200px;
+        }
+
+        .timer h3, .moves h3 {
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .timer p, .moves p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .instructions {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .instructions h2 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .instructions ol {
+            padding-left: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .puzzle-container {
+                max-width: 300px;
+            }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            background: #3498db;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 9999;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            text-decoration: none;
+            font-size: 1.5rem;
+            border: 2px solid white;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+            background: #2980b9;
+            color: white;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+<body>
+    <a href="self-care.php" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.php" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <span class="logo-text">MindCare</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="puzzle.html" class="active">Puzzle</a></li>
+                </ul>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="game-container">
+        <div class="game-header">
+            <h1>Puzzle Game</h1>
+            <p>Solve the puzzle to improve your problem-solving skills</p>
+        </div>
+
+        <div class="timer">
+            <h3>Time</h3>
+            <p id="time">00:00</p>
+        </div>
+
+        <div class="moves">
+            <h3>Moves</h3>
+            <p id="moves">0</p>
+        </div>
+
+        <div class="puzzle-container" id="puzzleContainer"></div>
+
+        <div class="controls">
+            <button class="control-btn" id="startBtn">
+                <i class="fas fa-play"></i> Start Game
+            </button>
+            <button class="control-btn" id="resetBtn">
+                <i class="fas fa-redo"></i> Reset
+            </button>
+        </div>
+
+        <div class="instructions">
+            <h2>How to Play</h2>
+            <ol>
+                <li>Click the Start Game button to begin</li>
+                <li>Click on a piece next to the empty space to move it</li>
+                <li>Arrange the numbers in order from 1 to 8</li>
+                <li>Try to solve the puzzle in the fewest moves possible</li>
+                <li>The timer will track how long it takes you to solve the puzzle</li>
+            </ol>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MindCare</h3>
+                    <p>Supporting mental health and well-being for everyone.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="dashboard.php">Dashboard</a></li>
+                        <li><a href="resources.php">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: support@mindcare.com</p>
+                    <p>Phone: 9398598790</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MindCare. All rights reserved to TEAM SHOURYANGA</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Game Logic
+        const puzzleContainer = document.getElementById('puzzleContainer');
+        const timeDisplay = document.getElementById('time');
+        const movesDisplay = document.getElementById('moves');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        let timer;
+        let seconds = 0;
+        let moves = 0;
+        let gameStarted = false;
+        let puzzleState = [];
+        const solvedState = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+
+        function createPuzzle() {
+            puzzleContainer.innerHTML = '';
+            puzzleState = [...solvedState];
+            shufflePuzzle();
+            
+            puzzleState.forEach((value, index) => {
+                const piece = document.createElement('div');
+                piece.className = 'puzzle-piece';
+                if (value === 0) {
+                    piece.classList.add('empty');
+                } else {
+                    piece.textContent = value;
+                    piece.addEventListener('click', () => movePiece(index));
+                }
+                puzzleContainer.appendChild(piece);
+            });
+        }
+
+        function shufflePuzzle() {
+            for (let i = puzzleState.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [puzzleState[i], puzzleState[j]] = [puzzleState[j], puzzleState[i]];
+            }
+        }
+
+        function movePiece(index) {
+            if (!gameStarted) return;
+
+            const emptyIndex = puzzleState.indexOf(0);
+            const row = Math.floor(index / 3);
+            const col = index % 3;
+            const emptyRow = Math.floor(emptyIndex / 3);
+            const emptyCol = emptyIndex % 3;
+
+            if ((Math.abs(row - emptyRow) === 1 && col === emptyCol) ||
+                (Math.abs(col - emptyCol) === 1 && row === emptyRow)) {
+                [puzzleState[index], puzzleState[emptyIndex]] = [puzzleState[emptyIndex], puzzleState[index]];
+                moves++;
+                movesDisplay.textContent = moves;
+                updatePuzzleDisplay();
+                checkWin();
+            }
+        }
+
+        function updatePuzzleDisplay() {
+            const pieces = puzzleContainer.children;
+            puzzleState.forEach((value, index) => {
+                const piece = pieces[index];
+                piece.className = 'puzzle-piece';
+                if (value === 0) {
+                    piece.classList.add('empty');
+                    piece.textContent = '';
+                } else {
+                    piece.textContent = value;
+                    piece.addEventListener('click', () => movePiece(index));
+                }
+            });
+        }
+
+        function checkWin() {
+            if (puzzleState.every((value, index) => value === solvedState[index])) {
+                clearInterval(timer);
+                gameStarted = false;
+                alert(`Congratulations! You solved the puzzle in ${moves} moves and ${formatTime(seconds)}!`);
+            }
+        }
+
+        function formatTime(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startGame() {
+            if (gameStarted) return;
+            gameStarted = true;
+            seconds = 0;
+            moves = 0;
+            timeDisplay.textContent = '00:00';
+            movesDisplay.textContent = '0';
+            timer = setInterval(() => {
+                seconds++;
+                timeDisplay.textContent = formatTime(seconds);
+            }, 1000);
+        }
+
+        function resetGame() {
+            clearInterval(timer);
+            gameStarted = false;
+            seconds = 0;
+            moves = 0;
+            timeDisplay.textContent = '00:00';
+            movesDisplay.textContent = '0';
+            createPuzzle();
+        }
+
+        startBtn.addEventListener('click', startGame);
+        resetBtn.addEventListener('click', resetGame);
+
+        // Initialize game
+        createPuzzle();
+    </script>
+</body>
+</html> 
