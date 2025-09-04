@@ -13,7 +13,6 @@ if(isset($_SESSION['user_id'])) {
             $user_name = $user['name'];
         }
     } catch(PDOException $e) {
-        // Handle error silently
     }
 }
 ?>
